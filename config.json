@@ -2,6 +2,7 @@
   "name": "Jessé Júnior",
   "job": "Computer Engineer",
   "github": "JesseMacielJr",
+  "bg": "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
   "playlists": {
     "jogos": [
         {
@@ -128,6 +129,16 @@
         "title": "O que é o C#? #HipstersPontoTube",
         "url": "https://www.youtube.com/watch?v=0JWMVc1CqpA",
         "thumb": "https://img.youtube.com/vi/0JWMVc1CqpA/hqdefault.jpg"
+      }
+    ],
+    "favorites": [
+      {
+        "title": "@Eliezer Tymniak",
+        "thumb": "https://yt3.ggpht.com/ytc/AMLnZu9pGHfyJFbD8A4tdjQj-32PpcHIr4VpGei2ERzk=s88-c-k-c0x00ffffff-no-rj"
+      },
+      {
+        "title": "@Cortes do Casimito",
+        "thumb": "https://yt3.ggpht.com/ytc/AMLnZu-bu8UoUTz6sCJgx86VKU1HI1PheMS-2KjnkEZ0=s88-c-k-c0x00ffffff-no-rj"
       }
     ]
   }

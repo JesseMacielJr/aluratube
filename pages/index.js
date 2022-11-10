@@ -1,3 +1,4 @@
+import React from 'react';
 import config from '../config.json';
 import styled from 'styled-components';
 import { CSSReset } from '../src/components/CSSReset';
@@ -5,6 +6,19 @@ import Menu from '../src/components/Menu';
 import { StyledTimeline } from '../src/components/Timeline';
 
 function HomePage() {
+  // Árvore de componentes
+  // HomePage
+  // Menu
+  // Search
+  // O modelo de renderização do React é chamado de Top-Down
+  // Ou seja, ele não faz com que o filho atualize o pai sobre os estados
+  // ex: se um estado do Search mudar ele não avisa os nós acima
+  // Logo, as informações em comum devem estar em cima
+
+  // const valorDoFiltro = 'Frost';
+
+  const [valorDoFiltro, setvalorDoFiltro] = React.useState('');
+
   return (
     <>
       <CSSReset />
@@ -15,9 +29,13 @@ function HomePage() {
           flex: 1,
           // backgroundColor: "red",
         }}>
-        <Menu />
+        {/* Prop Drilling: perfurando a aplicação passando as propriedades pra baixo */}
+        <Menu
+          valorDoFiltro={valorDoFiltro}
+          setvalorDoFiltro={setvalorDoFiltro}
+        />
         <Header />
-        <Timeline playlists={config.playlists} />
+        <Timeline searchValue={valorDoFiltro} playlists={config.playlists} />
       </div>
     </>
   );
@@ -32,7 +50,6 @@ const StyledHeader = styled.div`
     border-radius: 50%;
   }
   .user-info {
-    margin-top: 50px;
     display: flex;
     align-items: center;
     width: 100%;
@@ -40,11 +57,15 @@ const StyledHeader = styled.div`
   }
 `;
 
+const StyledBanner = styled.div`
+  /* background-image: url(${config.bg}); */
+  background-image: url(${({ bg }) => bg});
+  height: 230px;
+`;
 function Header() {
   return (
     <StyledHeader>
-      {/* <img src="banner" /> */}
-
+      <StyledBanner bg={config.bg} />
       <section className="user-info">
         <img src={`https://github.com/${config.github}.png`} />
         <div>
@@ -56,9 +77,9 @@ function Header() {
   );
 }
 
-function Timeline(props) {
+function Timeline({ searchValue, ...props }) {
   const playlistNames = Object.keys(props.playlists);
-  console.log(playlistNames);
+  //console.log(playlistNames);
   // Statement
   // Retorno por expressão
 
@@ -67,19 +88,27 @@ function Timeline(props) {
     <StyledTimeline>
       {playlistNames.map((playlistName) => {
         const videos = props.playlists[playlistName];
-        console.log(videos);
+        // Sempre que a gente faz um map é importante que o React saiba que esse elemento é único, para permitir que
+        // ele trabalhe melhor internamente e otimizar as renderizações da página. Ao invés dele renderizar o bloco inteiro
+        // ele apenas renderiza o que muda
         return (
-          <section>
+          <section key={playlistName}>
             <h2>{playlistName}</h2>
             <div>
-              {videos.map((video) => {
-                return (
-                  <a href={video.url}>
-                    <img src={video.thumb} />
-                    <span>{video.title}</span>
-                  </a>
-                );
-              })}
+              {videos
+                .filter((video) => {
+                  const titleNormalized = video.title.toLowerCase();
+                  const searchValueNormalized = searchValue.toLowerCase();
+                  return titleNormalized.includes(searchValueNormalized);
+                })
+                .map((video) => {
+                  return (
+                    <a key={video.url} href={video.url}>
+                      <img src={video.thumb} />
+                      <span>{video.title}</span>
+                    </a>
+                  );
+                })}
             </div>
           </section>
         );
