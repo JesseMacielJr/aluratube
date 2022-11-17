@@ -4,6 +4,8 @@ export const ColorModeContext = React.createContext({
   mode: '',
   setMode: () => {
     alert('Você precisa me configurar primeiro');
+  },
+  setMode: () => {
     toggleMode('Você precisa me configurar primeiro');
   },
 });
